@@ -1,5 +1,10 @@
 name: API Tests with Allure
 
+# Grant Actions the required permissions to push to branches / GitHub Pages
+permissions:
+  contents: write
+  pages: write
+
 on:
   push:
     branches: [ "main" ]
@@ -13,6 +18,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          # ensure the GITHUB_TOKEN credentials are available to push commits/branches
+          persist-credentials: true
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
