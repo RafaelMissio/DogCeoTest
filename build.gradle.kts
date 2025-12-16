@@ -37,8 +37,18 @@ configurations.all {
     }
 }
 
+// Ensure Java compilation uses UTF-8 encoding so source files and messages keep accents
+tasks.withType<JavaCompile>().configureEach {
+    options.encoding = "UTF-8"
+}
+
+
 tasks.test {
     useJUnitPlatform()
+
+    // Force UTF-8 for tests and for any tools (Allure) that read test output
+    systemProperty("file.encoding", "UTF-8")
+    jvmArgs = listOf("-Dfile.encoding=UTF-8", "-Duser.language=pt", "-Duser.country=BR")
 
     testLogging {
         events(
@@ -63,5 +73,3 @@ allure {
         }
     }
 }
-
-
